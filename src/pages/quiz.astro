@@ -1,0 +1,144 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const questions = [
+  {
+    question: "Come ti piace trascorrere i fine settimana?",
+    options: [
+      { answer: "Rilassandomi a casa", type: "Romantica Casalinga" },
+      { answer: "Facendo escursioni o esplorando nuovi posti", type: "Avventuriera Passionale" },
+      { answer: "Socializzando con gli amici", type: "Sociale Sensuale" },
+      { answer: "Imparando qualcosa di nuovo", type: "Curiosa Intellettuale" }
+    ]
+  },
+  {
+    question: "Non riusciresti a stare per 365 giorni senza:",
+    options: [
+      { answer: "Voce", type: "Romantica Casalinga" },
+      { answer: "Sole", type: "Avventuriera Passionale" },
+      { answer: "Musica", type: "Sociale Sensuale" },
+      { answer: "Sesso", type: "Curiosa Intellettuale" }
+    ]
+  },
+  {
+    question: "Per restare in un Eden tutto piaceri e libagioni con 10 uomini e altre 9 donne devi scegliere:",
+    options: [
+      { answer: "Eliminare l'unico uomo che ce l'ha grande", type: "Romantica Casalinga" },
+      { answer: "Eliminare i 9 uomini che ce l'hanno piccolo", type: "Avventuriera Passionale" }
+    ]
+  },
+  {
+    question: "Hai conosciuto un uomo in chat, c'è molto feeling ma non sai nulla del suo aspetto. Prima di incontrarlo puoi aggiungergli magicamente 4 centimetri. Dove li metti?",
+    options: [
+      { answer: "Larghezza spalle", type: "Romantica Casalinga" },
+      { answer: "Circonferenza dei bicipiti", type: "Avventuriera Passionale" },
+      { answer: "Altezza", type: "Sociale Sensuale" },
+      { answer: "Lunghezza capelli", type: "Curiosa Intellettuale" }
+    ]
+  },
+  {
+    question: "Quali di questi nomi preferiresti dire nel momento del climax?",
+    options: [
+      { answer: "Alejandro", type: "Romantica Casalinga" },
+      { answer: "Patrick", type: "Avventuriera Passionale" },
+      { answer: "Simon", type: "Sociale Sensuale" },
+      { answer: "Daniel", type: "Curiosa Intellettuale" }
+    ]
+  }
+];
+---
+
+<Layout title="Quiz di Personalità">
+  <main class="flex flex-col items-center justify-center gap-10 p-6">
+    <h1 class="text-4xl font-bold text-center mt-16">Scopri il Tuo Profilo di Personalità</h1>
+    <div id="quiz-container" class="w-full max-w-lg space-y-6">
+      <form id="quiz-form">
+        {questions.map((q, index) => (
+          <div class="space-y-2 question-step hidden" key={index} data-step={index}>
+            <h2 class="text-xl font-semibold">{q.question}</h2>
+            {q.options.map((option, idx) => (
+              <label class="block" key={idx}>
+                <input type="radio" name={`question-${index}`} value={option.type} required />
+                {option.answer}
+              </label>
+            ))}
+          </div>
+        ))}
+        <button type="button" id="next-button" class="bg-blue-500 text-white px-4 py-2 rounded mt-4 disabled:opacity-50" disabled>Avanti</button>
+      </form>
+      <div id="result" class="text-xl font-semibold text-center hidden"></div>
+      <div id="result-description" class="text-lg text-center hidden"></div>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const questions = document.querySelectorAll('.question-step');
+      const nextButton = document.getElementById('next-button');
+      const form = document.getElementById('quiz-form');
+      const resultDiv = document.getElementById('result');
+      const resultDescriptionDiv = document.getElementById('result-description');
+      let currentStep = 0;
+      let answerCounts = {
+        "Romantica Casalinga": 0,
+        "Avventuriera Passionale": 0,
+        "Sociale Sensuale": 0,
+        "Curiosa Intellettuale": 0
+      };
+
+      // Definizione degli outcomes
+      const outcomes = {
+        "Romantica Casalinga": { result: "Sei una Romantica Casalinga!", description: "Ti piace la tranquillità e la sicurezza di casa, e dai valore alle emozioni intime e romantiche. Cerchi esperienze che siano sincere e profonde, e tendi a preferire una connessione autentica rispetto all'avventura o all'esplorazione." },
+        "Avventuriera Passionale": { result: "Sei un'Avventuriera Passionale!", description: "Sei entusiasta e vivace, ami l'avventura e il brivido. Non ti accontenti della routine e sei sempre alla ricerca di nuove esperienze. La tua passione per la vita si riflette nella tua ricerca di eccitazione e novità." },
+        "Sociale Sensuale": { result: "Sei una Sociale Sensuale!", description: "Sei socievole e ami socializzare, ma non disdegni la passione e l'intimità. Sei in grado di combinare il tuo desiderio di connessione sociale con una forte componente romantica e sessuale." },
+        "Curiosa Intellettuale": { result: "Sei una Curiosa Intellettuale!", description: "Sei curiosa e intellettualmente stimolata. Ami scoprire nuove cose e non hai paura di esplorare diversi aspetti della vita e delle relazioni. La tua apertura mentale e il tuo desiderio di apprendere si riflettono nelle tue scelte." }
+      };
+
+      // Mostra la prima domanda
+      questions[currentStep].classList.remove('hidden');
+
+      // Gestisci la selezione delle risposte
+      form.addEventListener('change', function (e) {
+        if (e.target.matches('input[type="radio"]')) {
+          nextButton.disabled = false;
+        }
+      });
+
+      // Gestisci il click sul pulsante Avanti
+      nextButton.addEventListener('click', function () {
+        // Salva la risposta
+        const selectedOption = document.querySelector(`input[name="question-${currentStep}"]:checked`);
+        if (selectedOption) {
+          const selectedType = selectedOption.value;
+          answerCounts[selectedType]++;
+        }
+
+        // Nascondi la domanda corrente
+        questions[currentStep].classList.add('hidden');
+        currentStep++;
+
+        // Controlla se ci sono altre domande
+        if (currentStep < questions.length) {
+          questions[currentStep].classList.remove('hidden');
+          nextButton.disabled = true;
+        } else {
+          // Calcola il risultato e mostralo
+          calculateResult();
+          nextButton.classList.add('hidden');
+        }
+      });
+
+      function calculateResult() {
+        // Trova il tipo di personalità con il maggior numero di selezioni
+        let finalType = Object.keys(answerCounts).reduce((a, b) => answerCounts[a] > answerCounts[b] ? a : b);
+
+        // Mostra il risultato
+        resultDiv.innerText = outcomes[finalType].result;
+        resultDescriptionDiv.innerText = outcomes[finalType].description;
+        resultDiv.classList.remove('hidden');
+        resultDescriptionDiv.classList.remove('hidden');
+        form.classList.add('hidden');
+      }
+    });
+  </script>
+</Layout>
