@@ -14,35 +14,35 @@ const questions = [
   {
     question: "Non riusciresti a stare per 365 giorni senza:",
     options: [
-      { answer: "Voce", type: "Romantica Casalinga" },
+      { answer: "Voce", type: "Curiosa Intellettuale" },
       { answer: "Sole", type: "Avventuriera Passionale" },
-      { answer: "Musica", type: "Sociale Sensuale" },
-      { answer: "Sesso", type: "Curiosa Intellettuale" }
+      { answer: "Musica", type: "Romantica Casalinga" },
+      { answer: "Sesso", type: "Sociale Sensuale" }
     ]
   },
   {
     question: "Per restare in un Eden tutto piaceri e libagioni con 10 uomini e altre 9 donne devi scegliere:",
     options: [
-      { answer: "Eliminare l'unico uomo che ce l'ha grande", type: "Romantica Casalinga" },
-      { answer: "Eliminare i 9 uomini che ce l'hanno piccolo", type: "Avventuriera Passionale" }
+      { answer: "Eliminare l'unico amante che ce l'ha grande", type: "Romantica Casalinga" },
+      { answer: "Eliminare i 9 amanti che ce l'hanno piccolo", type: "Avventuriera Passionale" }
     ]
   },
   {
-    question: "Hai conosciuto un uomo in chat, c'è molto feeling ma non sai nulla del suo aspetto. Prima di incontrarlo puoi aggiungergli magicamente 4 centimetri. Dove li metti?",
+    question: "Hai conosciuto un amante in chat, c'è molto feeling ma non sai nulla del suo aspetto. Prima di incontrarlo puoi aggiungergli magicamente 4 centimetri. Dove li metti?",
     options: [
-      { answer: "Larghezza spalle", type: "Romantica Casalinga" },
+      { answer: "Larghezza spalle", type: "Curiosa Intellettuale" },
       { answer: "Circonferenza dei bicipiti", type: "Avventuriera Passionale" },
       { answer: "Altezza", type: "Sociale Sensuale" },
-      { answer: "Lunghezza capelli", type: "Curiosa Intellettuale" }
+      { answer: "Lunghezza capelli", type: "Romantica Casalinga" }
     ]
   },
   {
     question: "Quali di questi nomi preferiresti dire nel momento del climax?",
     options: [
-      { answer: "Alejandro", type: "Romantica Casalinga" },
-      { answer: "Patrick", type: "Avventuriera Passionale" },
-      { answer: "Simon", type: "Sociale Sensuale" },
-      { answer: "Daniel", type: "Curiosa Intellettuale" }
+      { answer: "Alejandro", type: "Avventuriera Passionale" },
+      { answer: "Patrick", type: "Curiosa Intellettuale" },
+      { answer: "Simon", type: "Romantica Casalinga" },
+      { answer: "Daniel", type: "Sociale Sensuale" }
     ]
   }
 ];
@@ -88,10 +88,11 @@ const questions = [
 
       // Definizione degli outcomes
       const outcomes = {
-        "Romantica Casalinga": { result: "Sei una Romantica Casalinga!", description: "Ti piace la tranquillità e la sicurezza di casa, e dai valore alle emozioni intime e romantiche. Cerchi esperienze che siano sincere e profonde, e tendi a preferire una connessione autentica rispetto all'avventura o all'esplorazione." },
-        "Avventuriera Passionale": { result: "Sei un'Avventuriera Passionale!", description: "Sei entusiasta e vivace, ami l'avventura e il brivido. Non ti accontenti della routine e sei sempre alla ricerca di nuove esperienze. La tua passione per la vita si riflette nella tua ricerca di eccitazione e novità." },
-        "Sociale Sensuale": { result: "Sei una Sociale Sensuale!", description: "Sei socievole e ami socializzare, ma non disdegni la passione e l'intimità. Sei in grado di combinare il tuo desiderio di connessione sociale con una forte componente romantica e sessuale." },
-        "Curiosa Intellettuale": { result: "Sei una Curiosa Intellettuale!", description: "Sei curiosa e intellettualmente stimolata. Ami scoprire nuove cose e non hai paura di esplorare diversi aspetti della vita e delle relazioni. La tua apertura mentale e il tuo desiderio di apprendere si riflettono nelle tue scelte." }
+        "Romantica Casalinga": { result: "Sei una Romantica Casalinga!", description: "Ti piace la tranquillità e la sicurezza di casa, e dai valore alle emozioni intime e romantiche. Cerchi esperienze che siano sincere e profonde, e tendi a preferire una connessione autentica rispetto all'avventura o all'esplorazione. Pacchetto consigliato: Notte sotto le lenzuola." },
+        "Avventuriera Passionale": { result: "Sei un'Avventuriera Passionale!", description: "Sei entusiasta e vivace, ami l'avventura e il brivido. Non ti accontenti della routine e sei sempre alla ricerca di nuove esperienze. Pacchetto consigliato: Fuga con Pirata." },
+        "Sociale Sensuale": { result: "Sei una Sociale Sensuale!", description: "Sei socievole e ami socializzare, ma non disdegni la passione e l'intimità. Sei in grado di combinare il tuo desiderio di connessione sociale con una forte componente romantica e sessuale. Pacchetto consigliato: Mi Porto l'Amica." },
+        "Curiosa Intellettuale": { result: "Sei una Curiosa Intellettuale!", description: "Sei curiosa e intellettualmente stimolata. Ami scoprire nuove cose e non hai paura di esplorare diversi aspetti della vita e delle relazioni. Pacchetto consigliato: Amante Fisso." },
+        "Socievole Avventuriera": { result: "Sei una Socievole Avventuriera!", description: "Sei una donna dinamica e socievole, ami l'avventura e conosci sempre nuove persone. La tua energia positiva contagia chi ti circonda. Pacchetto consigliato: Total Blind Date." }
       };
 
       // Mostra la prima domanda
@@ -129,8 +130,28 @@ const questions = [
       });
 
       function calculateResult() {
-        // Trova il tipo di personalità con il maggior numero di selezioni
+        // Trova il profilo con il maggior numero di selezioni
         let finalType = Object.keys(answerCounts).reduce((a, b) => answerCounts[a] > answerCounts[b] ? a : b);
+
+        // Fallback 1: Se ci sono tre risposte con l'asterisco *, attiva il profilo "Socievole Avventuriera"
+        const starQuestions = [
+          { q: 1, answer: "Avventuriera Passionale" },
+          { q: 2, answer: "Sociale Sensuale" },
+          { q: 3, answer: "Romantica Casalinga" }
+        ];
+
+        let starMatches = starQuestions.filter(item => {
+          return answerCounts[item.answer] > 0;
+        });
+
+        if (starMatches.length >= 3) {
+          finalType = "Socievole Avventuriera";
+        }
+
+        // Fallback 2: Se nessun match perfetto, attiva il profilo Jolly
+        if (!finalType || Object.values(answerCounts).every(count => count === 0)) {
+          finalType = "Socievole Avventuriera";
+        }
 
         // Mostra il risultato
         resultDiv.innerText = outcomes[finalType].result;
