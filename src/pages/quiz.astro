@@ -5,44 +5,44 @@ const questions = [
   {
     question: "Come ti piace trascorrere i fine settimana?",
     options: [
-      { answer: "Rilassandomi a casa", type: "Romantica Casalinga" },
-      { answer: "Facendo escursioni o esplorando nuovi posti", type: "Avventuriera Passionale" },
-      { answer: "Socializzando con gli amici", type: "Sociale Sensuale" },
-      { answer: "Imparando qualcosa di nuovo", type: "Curiosa Intellettuale" }
+      { answer: "Rilassandomi a casa", type: "La Romantica Emotiva" },
+      { answer: "Facendo escursioni o esplorando nuovi posti", type: "L’Avventuriera Libera" },
+      { answer: "Socializzando con gli amici", type: "La Sensuale Tradizionalista" },
+      { answer: "Imparando qualcosa di nuovo", type: "La Dominatrice Seducente" }
     ]
   },
   {
-    question: "Non riusciresti a stare per 365 giorni senza:",
+    question: "NON riusciresti a stare per 365 giorni senza:",
     options: [
-      { answer: "Voce", type: "Curiosa Intellettuale" },
-      { answer: "Sole", type: "Avventuriera Passionale" },
-      { answer: "Musica", type: "Romantica Casalinga" },
-      { answer: "Sesso", type: "Sociale Sensuale" }
+      { answer: "Voce", type: "La Dominatrice Seducente" },
+      { answer: "Sole", type: "L’Avventuriera Libera" },
+      { answer: "Musica", type: "La Romantica Emotiva" },
+      { answer: "Sesso", type: "La Sensuale Tradizionalista" }
     ]
   },
   {
     question: "Per restare in un Eden tutto piaceri e libagioni con 10 uomini e altre 9 donne devi scegliere:",
     options: [
-      { answer: "Eliminare l'unico amante che ce l'ha grande", type: "Romantica Casalinga" },
-      { answer: "Eliminare i 9 amanti che ce l'hanno piccolo", type: "Avventuriera Passionale" }
+      { answer: "Eliminare l'unico uomo che ce l'ha grande", type: "La Romantica Emotiva" },
+      { answer: "Eliminare i 9 uomini che ce l'hanno piccolo", type: "L’Avventuriera Libera" }
     ]
   },
   {
-    question: "Hai conosciuto un amante in chat, c'è molto feeling ma non sai nulla del suo aspetto. Prima di incontrarlo puoi aggiungergli magicamente 4 centimetri. Dove li metti?",
+    question: "Hai conosciuto un uomo in chat, c'è molto feeling ma non sai nulla del suo aspetto. Prima di incontrarlo puoi aggiungergli magicamente 4 centimetri. Dove li metti?",
     options: [
-      { answer: "Larghezza spalle", type: "Curiosa Intellettuale" },
-      { answer: "Circonferenza dei bicipiti", type: "Avventuriera Passionale" },
-      { answer: "Altezza", type: "Sociale Sensuale" },
-      { answer: "Lunghezza capelli", type: "Romantica Casalinga" }
+      { answer: "Larghezza spalle", type: "La Dominatrice Seducente" },
+      { answer: "Circonferenza dei bicipiti", type: "L’Avventuriera Libera" },
+      { answer: "Altezza", type: "La Sensuale Tradizionalista" },
+      { answer: "Lunghezza capelli", type: "La Romantica Emotiva" }
     ]
   },
   {
     question: "Quali di questi nomi preferiresti dire nel momento del climax?",
     options: [
-      { answer: "Alejandro", type: "Avventuriera Passionale" },
-      { answer: "Patrick", type: "Curiosa Intellettuale" },
-      { answer: "Simon", type: "Romantica Casalinga" },
-      { answer: "Daniel", type: "Sociale Sensuale" }
+      { answer: "Alejandro", type: "L’Avventuriera Libera" },
+      { answer: "Patrick", type: "La Dominatrice Seducente" },
+      { answer: "Simon", type: "La Romantica Emotiva" },
+      { answer: "Daniel", type: "La Sensuale Tradizionalista" }
     ]
   }
 ];
@@ -50,7 +50,7 @@ const questions = [
 
 <Layout title="Quiz di Personalità">
   <main class="flex flex-col items-center justify-center gap-10 p-6">
-    <h1 class="text-4xl font-bold text-center mt-16">Scopri il Tuo Profilo di Personalità</h1>
+    <h1 class="text-4xl font-bold text-center mt-16">E tu che donna sei?tà</h1>
     <div id="quiz-container" class="w-full max-w-lg space-y-6">
       <form id="quiz-form">
         {questions.map((q, index) => (
@@ -68,6 +68,24 @@ const questions = [
       </form>
       <div id="result" class="text-xl font-semibold text-center hidden"></div>
       <div id="result-description" class="text-lg text-center hidden"></div>
+
+      <!-- Titolo per il pacchetto consigliato -->
+      <div id="package-title" class="text-xl font-semibold text-center mt-8 hidden">
+        Il pacchetto perfetto per te
+      </div>
+
+      <!-- Card Pacchetto Consigliato -->
+      <div id="package-container" class="bg-gray-100 p-6 sm:p-6 lg:p-8 rounded-3xl border border-box-border bg-box-bg shadow-lg shadow-box-shadow relative overflow-hidden hidden mt-4">
+        <div class="rounded-xl bg-gray-300 dark:bg-gray-950 p-3 text-heading-1 w-max relative">
+          <!-- Icona del pacchetto (potrebbe essere un'icona generica o specifica) -->
+          🎁
+        </div>
+        <div class="mt-6 space-y-4 relative">
+          <h2 id="package-title-text" class="text-lg md:text-xl font-semibold text-heading-2"></h2>
+          <p id="package-description" class="text-base text-gray-700"></p>
+        </div>
+        <span class="absolute w-32 aspect-square -bottom-16 -right-16 bg-primary/10 rounded-full"></span>
+      </div>
     </div>
   </main>
 
@@ -78,21 +96,56 @@ const questions = [
       const form = document.getElementById('quiz-form');
       const resultDiv = document.getElementById('result');
       const resultDescriptionDiv = document.getElementById('result-description');
+      const packageTitleDiv = document.getElementById('package-title');
+      const packageContainerDiv = document.getElementById('package-container');
+      const packageTitleTextDiv = document.getElementById('package-title-text');
+      const packageDescriptionDiv = document.getElementById('package-description');
       let currentStep = 0;
       let answerCounts = {
-        "Romantica Casalinga": 0,
-        "Avventuriera Passionale": 0,
-        "Sociale Sensuale": 0,
-        "Curiosa Intellettuale": 0
+        "La Romantica Emotiva": 0,
+        "L’Avventuriera Libera": 0,
+        "La Sensuale Tradizionalista": 0,
+        "La Dominatrice Seducente": 0
       };
 
       // Definizione degli outcomes
       const outcomes = {
-        "Romantica Casalinga": { result: "Sei una Romantica Casalinga!", description: "Ti piace la tranquillità e la sicurezza di casa, e dai valore alle emozioni intime e romantiche. Cerchi esperienze che siano sincere e profonde, e tendi a preferire una connessione autentica rispetto all'avventura o all'esplorazione. Pacchetto consigliato: Notte sotto le lenzuola." },
-        "Avventuriera Passionale": { result: "Sei un'Avventuriera Passionale!", description: "Sei entusiasta e vivace, ami l'avventura e il brivido. Non ti accontenti della routine e sei sempre alla ricerca di nuove esperienze. Pacchetto consigliato: Fuga con Pirata." },
-        "Sociale Sensuale": { result: "Sei una Sociale Sensuale!", description: "Sei socievole e ami socializzare, ma non disdegni la passione e l'intimità. Sei in grado di combinare il tuo desiderio di connessione sociale con una forte componente romantica e sessuale. Pacchetto consigliato: Mi Porto l'Amica." },
-        "Curiosa Intellettuale": { result: "Sei una Curiosa Intellettuale!", description: "Sei curiosa e intellettualmente stimolata. Ami scoprire nuove cose e non hai paura di esplorare diversi aspetti della vita e delle relazioni. Pacchetto consigliato: Amante Fisso." },
-        "Socievole Avventuriera": { result: "Sei una Socievole Avventuriera!", description: "Sei una donna dinamica e socievole, ami l'avventura e conosci sempre nuove persone. La tua energia positiva contagia chi ti circonda. Pacchetto consigliato: Total Blind Date." }
+        "La Romantica Emotiva": { 
+          result: "Sei una Romantica Emotiva!", 
+          description: "Sei una donna che vive di emozioni profonde. Il tuo mondo è ricco di sentimenti, e il romanticismo è una parte centrale della tua vita. Cerchi un’esperienza che possa soddisfare non solo i tuoi desideri fisici, ma anche la tua anima. Vuoi un amante che possa capire le tue emozioni, coccolarti e farti sentire speciale, offrendoti un rifugio di tenerezza e comprensione. Ami i gesti dolci e premurosi, e vuoi una connessione che tocchi il cuore.",
+          packageTitle: "Amante Fisso",
+          packageDescription: "10 incontri con lo stesso amante, per costruire un legame stabile e profondo, proprio come piace a te."
+        },
+        "L’Avventuriera Libera": { 
+          result: "Sei un'L’Avventuriera Libera!", 
+          description: "Ami l’avventura, la libertà e l’esplorazione. Sei una donna curiosa, che odia la routine e desidera sempre sperimentare cose nuove. La tua passione per la vita ti porta a cercare esperienze che ti facciano sentire viva e ti consentano di scoprire nuovi orizzonti. Il divertimento e la spontaneità sono i tuoi migliori compagni, e desideri una partner che possa accompagnarti in queste avventure con la stessa energia e voglia di vivere.",
+          packageTitle: "Incontro a sorpresa",
+          packageDescription: "Un’esperienza sorprendente in uno dei tuoi luoghi preferiti, con un incontro inatteso che stimola l’avventura e la scoperta."
+        },
+        "La Sensuale Tradizionalista": { 
+          result: "Sei una Sensuale Tradizionalista!", 
+          description: "Sei una donna che apprezza i piaceri semplici e raffinati. Ami la stabilità, la sicurezza e sei profondamente legata alle emozioni. Per te, il romanticismo è un’arte e cerchi un’esperienza che ti faccia sentire coccolata e apprezzata. Adori i gesti premurosi e un tocco di lusso nella tua vita. Non cerchi avventure imprevedibili, ma momenti di puro piacere e relax in compagnia di un amante che sappia ascoltarti e condividere con te emozioni profonde.",
+          packageTitle: "Notte Stellata",
+          packageDescription: "Una serata romantica con una cena preparata da uno chef, seguita da un dopocena che si trasforma in un’esperienza intima sotto le lenzuola."
+        },
+        "La Dominatrice Seducente": { 
+          result: "Sei una Dominatrice Seducente!", 
+          description: "Sei una donna sicura di sé, forte e amante della scena. Adori essere al centro dell’attenzione e non temi di mostrare il tuo potere e il tuo fascino. Sei una leader naturale e hai una passione innata per l’avventura. Ami sentirti desiderata e adori le esperienze che ti fanno brillare. Non hai paura di osare e sei sempre pronta a goderti la vita al massimo, con un amante che sappia tenere il passo con la tua energia.",
+          packageTitle: "Fuga con Pirata",
+          packageDescription: "Un weekend indimenticabile in barca a vela con skipper, perfetto per una regina del mare che non teme nulla."
+        },
+        "La Socievole Avventuriera": { 
+          result: "Sei una Socievole Avventuriera!", 
+          description: "Sei una donna indipendente, dinamica e socievole, con una grande voglia di scoprire il mondo insieme agli altri. Ami incontrare nuove persone e creare connessioni genuine, sia che si tratti di amici o potenziali amanti. Hai un’energia positiva e contagiosa che rende ogni avventura più piacevole quando è condivisa. Non ti piace stare sola e preferisci vivere ogni esperienza con la tua tribù di amici e compagni di viaggio, pronti a esplorare nuovi luoghi e a vivere nuove emozioni insieme a te.",
+          packageTitle: "Mi porto l'Amica",
+          packageDescription: "Con il pacchetto 2x1, puoi vivere l’avventura con una compagna al tuo fianco, condividendo momenti di puro piacere."
+        },
+        "Avventuriera del Mistero": { 
+          result: "Sei un'Avventuriera del Mistero!", 
+          description: "Sei una donna che non teme l’ignoto e che ama lasciarsi sorprendere dalla vita. Per te, l’imprevedibilità è un elemento eccitante e sei pronta a lasciarti andare a nuove esperienze senza sapere cosa ti aspetta. Ti piace l’idea di non avere il controllo e di affidarti al destino per vivere qualcosa di unico e sorprendente.",
+          packageTitle: "Total Blind Date",
+          packageDescription: "Un incontro al buio totale, dove l’emozione sta nel non sapere con chi sarà. Lasciati sorprendere!"
+        }
       };
 
       // Mostra la prima domanda
@@ -133,11 +186,11 @@ const questions = [
         // Trova il profilo con il maggior numero di selezioni
         let finalType = Object.keys(answerCounts).reduce((a, b) => answerCounts[a] > answerCounts[b] ? a : b);
 
-        // Fallback 1: Se ci sono tre risposte con l'asterisco *, attiva il profilo "Socievole Avventuriera"
+        // Fallback 1: Se ci sono tre risposte con l'asterisco *, attiva il profilo "La Socievole Avventuriera"
         const starQuestions = [
-          { q: 1, answer: "Avventuriera Passionale" },
-          { q: 2, answer: "Sociale Sensuale" },
-          { q: 3, answer: "Romantica Casalinga" }
+          { q: 1, answer: "L’Avventuriera Libera" },
+          { q: 2, answer: "La Sensuale Tradizionalista" },
+          { q: 3, answer: "La Romantica Emotiva" }
         ];
 
         let starMatches = starQuestions.filter(item => {
@@ -145,19 +198,24 @@ const questions = [
         });
 
         if (starMatches.length >= 3) {
-          finalType = "Socievole Avventuriera";
+          finalType = "La Socievole Avventuriera";
         }
 
         // Fallback 2: Se nessun match perfetto, attiva il profilo Jolly
         if (!finalType || Object.values(answerCounts).every(count => count === 0)) {
-          finalType = "Socievole Avventuriera";
+          finalType = "L’Avventuriera del Mistero";
         }
 
         // Mostra il risultato
-        resultDiv.innerText = outcomes[finalType].result;
-        resultDescriptionDiv.innerText = outcomes[finalType].description;
+        const outcome = outcomes[finalType];
+        resultDiv.innerText = outcome.result;
+        resultDescriptionDiv.innerText = outcome.description;
+        packageTitleTextDiv.innerText = outcome.packageTitle;
+        packageDescriptionDiv.innerText = outcome.packageDescription;
         resultDiv.classList.remove('hidden');
         resultDescriptionDiv.classList.remove('hidden');
+        packageTitleDiv.classList.remove('hidden');
+        packageContainerDiv.classList.remove('hidden');
         form.classList.add('hidden');
       }
     });
