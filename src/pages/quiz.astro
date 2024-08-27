@@ -5,44 +5,44 @@ const questions = [
   {
     question: "Come ti piace trascorrere i fine settimana?",
     options: [
-      { answer: "Rilassandomi a casa", type: "La Romantica Emotiva" },
-      { answer: "Facendo escursioni o esplorando nuovi posti", type: "L’Avventuriera Libera" },
-      { answer: "Socializzando con gli amici", type: "La Sensuale Tradizionalista" },
-      { answer: "Imparando qualcosa di nuovo", type: "La Dominatrice Seducente" }
+      { answer: "Rilassandomi a casa", type: ["La Romantica Emotiva"] },
+      { answer: "Facendo escursioni o esplorando nuovi posti", type: ["L’Avventuriera Libera"] },
+      { answer: "Socializzando con gli amici", type: ["La Sensuale Tradizionalista"] },
+      { answer: "Imparando qualcosa di nuovo", type: ["La Dominatrice Seducente"] }
     ]
   },
   {
     question: "NON riusciresti a stare per 365 giorni senza:",
     options: [
-      { answer: "Voce", type: "La Dominatrice Seducente" },
-      { answer: "Sole", type: "L’Avventuriera Libera" },
-      { answer: "Musica", type: "La Romantica Emotiva" },
-      { answer: "Sesso", type: "La Sensuale Tradizionalista" }
+      { answer: "Voce", type: ["La Dominatrice Seducente"] },
+      { answer: "Sole", type: ["L’Avventuriera Libera"] },
+      { answer: "Musica", type: ["La Romantica Emotiva"] },
+      { answer: "Sesso", type: ["La Sensuale Tradizionalista"] }
     ]
   },
   {
     question: "Per restare in un Eden tutto piaceri e libagioni con 10 uomini e altre 9 donne devi scegliere:",
     options: [
-      { answer: "Eliminare l'unico uomo che ce l'ha grande", type: "La Romantica Emotiva" },
-      { answer: "Eliminare i 9 uomini che ce l'hanno piccolo", type: "L’Avventuriera Libera" }
+      { answer: "Eliminare l'unico uomo che ce l'ha grande", type: ["La Romantica Emotiva", "La Sensuale Tradizionalista"] },
+      { answer: "Eliminare i 9 uomini che ce l'hanno piccolo", type: ["L’Avventuriera Libera"] }
     ]
   },
   {
     question: "Hai conosciuto un uomo in chat, c'è molto feeling ma non sai nulla del suo aspetto. Prima di incontrarlo puoi aggiungergli magicamente 4 centimetri. Dove li metti?",
     options: [
-      { answer: "Larghezza spalle", type: "La Dominatrice Seducente" },
-      { answer: "Circonferenza dei bicipiti", type: "L’Avventuriera Libera" },
-      { answer: "Altezza", type: "La Sensuale Tradizionalista"},
-      { answer: "Lunghezza capelli", type: "La Romantica Emotiva" }
+      { answer: "Larghezza spalle", type: ["La Dominatrice Seducente"] },
+      { answer: "Circonferenza dei bicipiti", type: ["L’Avventuriera Libera"] },
+      { answer: "Altezza", type: ["La Sensuale Tradizionalista"] },
+      { answer: "Lunghezza capelli", type: ["La Romantica Emotiva"] }
     ]
   },
   {
     question: "Quali di questi nomi preferiresti dire nel momento del climax?",
     options: [
-      { answer: "Alejandro", type: "L’Avventuriera Libera" },
-      { answer: "Patrick", type: "La Dominatrice Seducente" },
-      { answer: "Simon", type: "La Romantica Emotiva" },
-      { answer: "Daniel", type: "La Sensuale Tradizionalista" }
+      { answer: "Alejandro", type: ["L’Avventuriera Libera"] },
+      { answer: "Patrick", type: ["La Dominatrice Seducente"] },
+      { answer: "Simon", type: ["La Romantica Emotiva"] },
+      { answer: "Daniel", type: ["La Sensuale Tradizionalista"] }
     ]
   }
 ];
@@ -58,7 +58,7 @@ const questions = [
             <h2 class="text-xl font-semibold">{q.question}</h2>
             {q.options.map((option, idx) => (
               <label class="block" key={idx}>
-                <input type="radio" name={`question-${index}`} value={option.type} required />
+                <input type="radio" name={`question-${index}`} value={option.type.join(",")} required />
                 {option.answer}
               </label>
             ))}
@@ -163,8 +163,12 @@ const questions = [
         // Salva la risposta
         const selectedOption = document.querySelector(`input[name="question-${currentStep}"]:checked`);
         if (selectedOption) {
-          const selectedType = selectedOption.value;
-          answerCounts[selectedType]++;
+          const selectedTypes = selectedOption.value.split(",");
+          selectedTypes.forEach(type => {
+            if (answerCounts[type] !== undefined) {
+              answerCounts[type]++;
+            }
+          });
         }
 
         // Nascondi la domanda corrente
@@ -203,7 +207,7 @@ const questions = [
 
         // Fallback 2: Se nessun match perfetto, attiva il profilo Jolly
         if (!finalType || Object.values(answerCounts).every(count => count === 0)) {
-          finalType = "L’Avventuriera del Mistero";
+          finalType = "Avventuriera del Mistero";
         }
 
         // Mostra il risultato
